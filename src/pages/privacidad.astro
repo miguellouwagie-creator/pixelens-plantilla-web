@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { client } from "../lib/sanity";
+
+const datos = await client.fetch(`*[_type == "ajustes"][0]`);
+
+// VARIABLES DINÁMICAS
+const empresa = datos?.razonSocial || datos?.nombreRestaurante || "La Empresa";
+const email = datos?.email || "email@pendiente.com";
+const dominio = datos?.dominioWeb || "nuestro sitio web"; // <--- Variable nueva
+---
+
+<Layout title={`Política de Privacidad | ${datos?.nombreRestaurante}`}>
+  <Navbar />
+
+  <main class="container mx-auto px-6 py-16 max-w-4xl">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
+      Política de Privacidad
+    </h1>
+
+    <div class="prose prose-lg text-gray-600 space-y-6 font-light leading-relaxed">
+      
+      <p>
+        En <strong>{empresa}</strong> nos comprometemos a proteger la privacidad de nuestros usuarios. Esta Política de Privacidad describe cómo recopilamos, usamos y protegemos la información personal que nos proporcionas a través del sitio web <strong>{dominio}</strong>.
+      </p>
+
+      <section>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">1. Responsable del Tratamiento</h2>
+        <p>
+          Los datos de carácter personal que se pudieran recabar directamente del interesado serán tratados de forma confidencial y quedarán incorporados a la correspondiente actividad de tratamiento titularidad de <strong>{empresa}</strong>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">2. Finalidad del tratamiento</h2>
+        <p>
+          La finalidad del tratamiento de los datos corresponde a la gestión de las solicitudes de reserva, respuesta a consultas realizadas a través de los formularios de contacto y el envío de comunicaciones relacionadas con nuestros servicios.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">3. Legitimación</h2>
+        <p>
+          El tratamiento de sus datos se realiza para el cumplimiento de obligaciones legales por parte de <strong>{empresa}</strong>, así como cuando la finalidad del tratamiento requiera su consentimiento, que habrá de ser prestado mediante una clara acción afirmativa (marcar la casilla correspondiente en el formulario).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">4. Conservación de datos</h2>
+        <p>
+          Los datos personales proporcionados se conservarán durante el tiempo necesario para cumplir con la finalidad para la que se recaban y para determinar las posibles responsabilidades que se pudieran derivar de la finalidad, además de los períodos establecidos en la normativa de archivos y documentación.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">5. Derechos de los interesados</h2>
+        <p>
+          Cualquier persona tiene derecho a obtener confirmación sobre los tratamientos que de sus datos que se llevan a cabo por <strong>{empresa}</strong>. Puede ejercer sus derechos de acceso, rectificación, supresión y portabilidad de sus datos, de limitación y oposición a su tratamiento, así como a no ser objeto de decisiones basadas únicamente en el tratamiento automatizado de sus datos, enviando un email a: <a href={`mailto:${email}`} class="text-orange-700 hover:underline font-bold">{email}</a>.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

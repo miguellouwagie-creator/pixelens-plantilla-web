@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { client } from "../lib/sanity";
+
+const datos = await client.fetch(`*[_type == "ajustes"][0]`);
+---
+
+<Layout title={`Página no encontrada | ${datos?.nombreRestaurante || "Restaurante"}`}>
+  <Navbar />
+
+  <main class="bg-gray-900 min-h-[60vh] flex items-center justify-center px-6 py-20 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+
+    <div class="text-center relative z-10 max-w-2xl mx-auto">
+      <h1 class="text-9xl font-serif font-bold text-white/10 select-none mb-4">404</h1>
+      
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 font-serif">
+        ¡Vaya! Plato no encontrado
+      </h2>
+      
+      <p class="text-xl text-gray-400 mb-10 font-light">
+        Parece que la página que buscas no está en nuestro menú. 
+        Puede que haya caducado o que la dirección sea incorrecta.
+      </p>
+
+      <div class="flex flex-col md:flex-row justify-center gap-4">
+        <a href="/" class="bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-bold hover:bg-orange-800 transition shadow-lg uppercase tracking-wider">
+          Volver al Inicio
+        </a>
+        <a href="/carta" class="border border-white/30 text-white px-8 py-3 rounded-full text-lg font-bold hover:bg-white hover:text-gray-900 transition uppercase tracking-wider">
+          Ver la Carta
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

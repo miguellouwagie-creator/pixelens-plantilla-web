@@ -1,0 +1,33 @@
+---
+import '../styles/global.css';
+
+// Definimos las propiedades que pueden cambiar página a página
+interface Props {
+	title: string;
+	description?: string; // Opcional
+}
+
+const { 
+	title, 
+	description = "Restaurante La Goleta en Denia. La mejor cocina mediterránea, arroces y pescados frescos en el corazón del puerto." 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} /> <meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+		<div class="flex-grow">
+			<slot />
+		</div>
+	</body>
+</html>

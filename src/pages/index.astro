@@ -1,16 +1,76 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { client } from "../lib/sanity";
+import { urlFor } from "../lib/urlFor";
 
+// Pedimos los ajustes globales
+// CAMBIO IMPORTANTE: Pedimos 'imagenHero' (el objeto completo) en lugar de la URL directa
+const datos = await client.fetch(`*[_type == "ajustes"][0]{
+  nombreRestaurante,
+  tituloHero,
+  descripcionHero,
+  imagenHero 
+}`);
+
+// Optimización de imagen: 1920px ancho, formato WebP, calidad 80%
+const bgImage = datos?.imagenHero 
+  ? urlFor(datos.imagenHero).width(1920).format('webp').quality(80).url()
+  : "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1920&q=80";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title={`Inicio | ${datos?.nombreRestaurante || "Restaurante"}`}>
+  <Navbar />
+
+  <div 
+    class="relative bg-gray-900 text-white py-40 px-6 bg-cover bg-center bg-no-repeat"
+    style={`background-image: url('${bgImage}');`}
+  >
+    <div class="absolute inset-0 bg-black/50"></div>
+
+    <div class="relative container mx-auto text-center z-10">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight font-serif tracking-wide">
+        {datos?.tituloHero || "Experiencia Gastronómica"}
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-gray-100 max-w-2xl mx-auto mb-12 font-light">
+        {datos?.descripcionHero || "Cocina de autor en un entorno inolvidable."}
+      </p>
+      
+      <div class="flex flex-col md:flex-row justify-center gap-6">
+        <a href="/carta" class="bg-orange-700 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-orange-800 transition transform hover:scale-105 shadow-xl uppercase tracking-wider">
+          Ver Carta
+        </a>
+        <a href="/contacto" class="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-white hover:text-gray-900 transition uppercase tracking-wider">
+          Reservar Mesa
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="container mx-auto px-6 py-24">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+      <div class="p-8 border border-gray-100 rounded-xl hover:shadow-lg transition duration-300">
+        <div class="text-5xl mb-6 text-orange-600">🥘</div>
+        <h3 class="text-2xl font-bold mb-3 font-serif text-gray-900">Cocina Tradicional</h3>
+        <p class="text-gray-600 leading-relaxed">Recetas heredadas cocinadas a fuego lento con el mejor producto local.</p>
+      </div>
+      <div class="p-8 border border-gray-100 rounded-xl hover:shadow-lg transition duration-300">
+        <div class="text-5xl mb-6 text-orange-600">🌊</div>
+        <h3 class="text-2xl font-bold mb-3 font-serif text-gray-900">Vistas al Mar</h3>
+        <p class="text-gray-600 leading-relaxed">Disfruta de la brisa del Mediterráneo desde nuestra terraza exclusiva.</p>
+      </div>
+      <div class="p-8 border border-gray-100 rounded-xl hover:shadow-lg transition duration-300">
+        <div class="text-5xl mb-6 text-orange-600">🍷</div>
+        <h3 class="text-2xl font-bold mb-3 font-serif text-gray-900">Bodega Selecta</h3>
+        <p class="text-gray-600 leading-relaxed">Más de 100 referencias para maridar perfectamente con cada plato.</p>
+      </div>
+    </div>
+  </main>
+
+  <Testimonials />
+
+  <Footer />
+</Layout>

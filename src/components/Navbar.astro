@@ -1,0 +1,83 @@
+---
+import { client } from "../lib/sanity";
+
+// Pedimos los datos
+const datos = await client.fetch(`*[_type == "ajustes"][0]`);
+---
+
+<nav class="bg-gray-950 border-b border-white/10 sticky top-0 z-50 font-sans">
+  <div class="container mx-auto px-6 py-5"> <div class="flex justify-between items-center">
+      
+      <a href="/" class="text-3xl font-bold text-white flex items-center gap-2 font-serif italic tracking-tighter hover:text-orange-200 transition-colors">
+        {datos?.logo ? (
+            <img src={datos.logo} alt="Logo" class="h-12 w-auto object-contain" /> 
+        ) : (
+            <span>{datos?.nombreRestaurante || "Restaurante"}</span>
+        )}
+      </a>
+
+      <button id="menu-btn" class="md:hidden text-white hover:text-orange-300 focus:outline-none transition-colors">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+
+      <ul class="hidden md:flex space-x-10 text-white/90 font-light text-xs uppercase tracking-[0.2em] items-center">
+        <li>
+            <a href="/" class="hover:text-orange-300 transition-colors duration-300 border-b-2 border-transparent hover:border-orange-300 pb-1">
+                Inicio
+            </a>
+        </li>
+        <li>
+            <a href="/carta" class="hover:text-orange-300 transition-colors duration-300 border-b-2 border-transparent hover:border-orange-300 pb-1">
+                Carta
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contacto" class="border border-white/30 px-6 py-3 transition-all duration-300 hover:bg-white hover:text-gray-950 hover:border-white">
+                Reservar Mesa
+            </a>
+        </li>
+
+        {datos?.telefono && (
+          <li class="pl-4 border-l border-white/20">
+            <a href={`tel:${datos.telefono}`} class="hover:text-orange-300 transition-colors flex items-center gap-2">
+              <span class="text-lg">📞</span> {datos.telefono}
+            </a>
+          </li>
+        )}
+      </ul>
+
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-gray-950 border-t border-white/10 shadow-2xl h-screen">
+      <ul class="flex flex-col items-center justify-center h-[60vh] space-y-8 text-white font-serif text-2xl italic">
+        <li><a href="/" class="hover:text-orange-300 transition">Inicio</a></li>
+        <li><a href="/carta" class="hover:text-orange-300 transition">Nuestra Carta</a></li>
+        <li><a href="/contacto" class="hover:text-orange-300 transition">Reservar</a></li>
+        
+        {datos?.telefono && (
+          <li class="pt-8">
+            <a href={`tel:${datos.telefono}`} class="text-base font-sans uppercase tracking-widest border border-white/30 px-8 py-3 rounded-none hover:bg-white hover:text-gray-950 transition">
+              Llamar: {datos.telefono}
+            </a>
+          </li>
+        )}
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      // Cambiamos el icono de menú a X si está abierto (Opcional visual)
+    });
+  }
+</script>

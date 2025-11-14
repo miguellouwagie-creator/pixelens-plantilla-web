@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { client } from "../lib/sanity";
+
+const datos = await client.fetch(`*[_type == "ajustes"][0]`);
+const dominio = datos?.dominioWeb || "este sitio web"; // <--- Variable dinámica
+---
+
+<Layout title={`Política de Cookies | ${datos?.nombreRestaurante}`}>
+  <Navbar />
+
+  <main class="container mx-auto px-6 py-16 max-w-4xl">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
+      Política de Cookies
+    </h1>
+
+    <div class="prose prose-lg text-gray-600 space-y-6 font-light leading-relaxed">
+      
+      <p>
+        El dominio <strong>{dominio}</strong> utiliza cookies y/o tecnologías similares que almacenan y recuperan información cuando navegas. En general, estas tecnologías pueden servir para finalidades muy diversas, como, por ejemplo, reconocerte como usuario, obtener información sobre tus hábitos de navegación, o personalizar la forma en que se muestra el contenido.
+      </p>
+
+      <section>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">¿Qué tipos de cookies utilizamos?</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>
+            <strong>Cookies técnicas:</strong> Son aquellas que permiten al usuario la navegación a través de una página web, plataforma o aplicación y la utilización de las diferentes opciones o servicios que en ella existan.
+          </li>
+          <li>
+            <strong>Cookies de análisis:</strong> Son aquellas que permiten al responsable de las mismas el seguimiento y análisis del comportamiento de los usuarios de los sitios web a los que están vinculadas.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">Desactivación de cookies</h2>
+        <p>
+          Puede usted permitir, bloquear o eliminar las cookies instaladas en su equipo mediante la configuración de las opciones del navegador instalado en su ordenador.
+        </p>
+        <ul class="list-disc pl-6 mt-2">
+          <li><a href="https://support.google.com/chrome/answer/95647?hl=es" target="_blank" class="text-orange-700 underline hover:text-orange-800">Google Chrome</a></li>
+          <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" class="text-orange-700 underline hover:text-orange-800">Safari</a></li>
+          <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" class="text-orange-700 underline hover:text-orange-800">Firefox</a></li>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
