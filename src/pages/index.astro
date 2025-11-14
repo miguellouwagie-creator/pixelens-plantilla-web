@@ -6,8 +6,6 @@ import Testimonials from '../components/Testimonials.astro';
 import { client } from "../lib/sanity";
 import { urlFor } from "../lib/urlFor";
 
-// Pedimos los ajustes globales
-// CAMBIO IMPORTANTE: Pedimos 'imagenHero' (el objeto completo) en lugar de la URL directa
 const datos = await client.fetch(`*[_type == "ajustes"][0]{
   nombreRestaurante,
   tituloHero,
@@ -15,7 +13,6 @@ const datos = await client.fetch(`*[_type == "ajustes"][0]{
   imagenHero 
 }`);
 
-// Optimización de imagen: 1920px ancho, formato WebP, calidad 80%
 const bgImage = datos?.imagenHero 
   ? urlFor(datos.imagenHero).width(1920).format('webp').quality(80).url()
   : "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1920&q=80";
@@ -25,7 +22,7 @@ const bgImage = datos?.imagenHero
   <Navbar />
 
   <div 
-    class="relative bg-gray-900 text-white py-40 px-6 bg-cover bg-center bg-no-repeat"
+    class="relative bg-dark text-white py-40 px-6 bg-cover bg-center bg-no-repeat"
     style={`background-image: url('${bgImage}');`}
   >
     <div class="absolute inset-0 bg-black/50"></div>
@@ -40,10 +37,10 @@ const bgImage = datos?.imagenHero
       </p>
       
       <div class="flex flex-col md:flex-row justify-center gap-6">
-        <a href="/carta" class="bg-orange-700 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-orange-800 transition transform hover:scale-105 shadow-xl uppercase tracking-wider">
+        <a href="/carta" class="bg-brand text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-brand-hover transition transform hover:scale-105 shadow-xl uppercase tracking-wider">
           Ver Carta
         </a>
-        <a href="/contacto" class="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-white hover:text-gray-900 transition uppercase tracking-wider">
+        <a href="/contacto" class="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-white hover:text-dark transition uppercase tracking-wider">
           Reservar Mesa
         </a>
       </div>
@@ -53,24 +50,23 @@ const bgImage = datos?.imagenHero
   <main class="container mx-auto px-6 py-24">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
       <div class="p-8 border border-gray-100 rounded-xl hover:shadow-lg transition duration-300">
-        <div class="text-5xl mb-6 text-orange-600">🥘</div>
-        <h3 class="text-2xl font-bold mb-3 font-serif text-gray-900">Cocina Tradicional</h3>
+        <div class="text-5xl mb-6 text-brand">🥘</div>
+        <h3 class="text-2xl font-bold mb-3 font-serif text-dark">Cocina Tradicional</h3>
         <p class="text-gray-600 leading-relaxed">Recetas heredadas cocinadas a fuego lento con el mejor producto local.</p>
       </div>
       <div class="p-8 border border-gray-100 rounded-xl hover:shadow-lg transition duration-300">
-        <div class="text-5xl mb-6 text-orange-600">🌊</div>
-        <h3 class="text-2xl font-bold mb-3 font-serif text-gray-900">Vistas al Mar</h3>
+        <div class="text-5xl mb-6 text-brand">🌊</div>
+        <h3 class="text-2xl font-bold mb-3 font-serif text-dark">Vistas al Mar</h3>
         <p class="text-gray-600 leading-relaxed">Disfruta de la brisa del Mediterráneo desde nuestra terraza exclusiva.</p>
       </div>
       <div class="p-8 border border-gray-100 rounded-xl hover:shadow-lg transition duration-300">
-        <div class="text-5xl mb-6 text-orange-600">🍷</div>
-        <h3 class="text-2xl font-bold mb-3 font-serif text-gray-900">Bodega Selecta</h3>
+        <div class="text-5xl mb-6 text-brand">🍷</div>
+        <h3 class="text-2xl font-bold mb-3 font-serif text-dark">Bodega Selecta</h3>
         <p class="text-gray-600 leading-relaxed">Más de 100 referencias para maridar perfectamente con cada plato.</p>
       </div>
     </div>
   </main>
 
   <Testimonials />
-
   <Footer />
 </Layout>

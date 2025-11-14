@@ -1,10 +1,44 @@
 @import "tailwindcss";
-/* Aplicamos las fuentes globalmente */
+
+/* 1. AQUÍ DEFINES LA IDENTIDAD DEL CLIENTE (Toca solo esto) */
+:root {
+  /* --- COLORES --- */
+  /* Color Principal (Botones, Enlaces, Acentos) -> Antes era orange-700 (#c2410c) */
+  --color-brand: #c2410c; 
+  
+  /* Color Secundario (Fondos oscuros, Textos fuertes) -> Antes era gray-900 (#111827) */
+  --color-dark: #0f172a; 
+
+  /* Color de Fondo Suave (Secciones claras) -> Antes era stone-50 (#fafaf9) */
+  --color-surface: #fafaf9;
+
+  /* --- FUENTES (Google Fonts) --- */
+  /* Títulos Elegantes */
+  --font-heading: "Playfair Display", serif;
+  /* Texto de Lectura */
+  --font-body: "Lato", sans-serif;
+}
+
+/* 2. AQUÍ CONECTAMOS TUS VARIABLES A TAILWIND */
+@theme {
+  /* Colores personalizados */
+  --color-brand: var(--color-brand);
+  --color-brand-hover: color-mix(in srgb, var(--color-brand), black 10%); /* Oscurece automático al pasar ratón */
+  --color-dark: var(--color-dark);
+  --color-surface: var(--color-surface);
+
+  /* Fuentes personalizadas */
+  --font-serif: var(--font-heading);
+  --font-sans: var(--font-body);
+}
+
+/* 3. ESTILOS BASE AUTOMÁTICOS */
 @layer base {
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
   }
   body {
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body);
+    color: var(--color-dark);
   }
 }

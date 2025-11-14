@@ -1,49 +1,36 @@
 ---
 import { client } from "../lib/sanity";
 
-// Pedimos los datos
 const datos = await client.fetch(`*[_type == "ajustes"][0]`);
 ---
 
-<nav class="bg-gray-950 border-b border-white/10 sticky top-0 z-50 font-sans">
-  <div class="container mx-auto px-6 py-5"> <div class="flex justify-between items-center">
+<nav class="bg-white shadow-md sticky top-0 z-50 font-sans">
+  <div class="container mx-auto px-6 py-4">
+    <div class="flex justify-between items-center">
       
-      <a href="/" class="text-3xl font-bold text-white flex items-center gap-2 font-serif italic tracking-tighter hover:text-orange-200 transition-colors">
+      <a href="/" class="text-2xl font-bold text-dark flex items-center gap-2 font-serif">
         {datos?.logo ? (
             <img src={datos.logo} alt="Logo" class="h-12 w-auto object-contain" /> 
         ) : (
-            <span>{datos?.nombreRestaurante || "Restaurante"}</span>
+            <span>{datos?.nombreRestaurante || "Restaurante"} ⚓</span>
         )}
       </a>
 
-      <button id="menu-btn" class="md:hidden text-white hover:text-orange-300 focus:outline-none transition-colors">
+      <button id="menu-btn" class="md:hidden text-gray-600 hover:text-dark focus:outline-none">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16m-7 6h7"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
       </button>
 
-      <ul class="hidden md:flex space-x-10 text-white/90 font-light text-xs uppercase tracking-[0.2em] items-center">
-        <li>
-            <a href="/" class="hover:text-orange-300 transition-colors duration-300 border-b-2 border-transparent hover:border-orange-300 pb-1">
-                Inicio
-            </a>
-        </li>
-        <li>
-            <a href="/carta" class="hover:text-orange-300 transition-colors duration-300 border-b-2 border-transparent hover:border-orange-300 pb-1">
-                Carta
-            </a>
-        </li>
+      <ul class="hidden md:flex space-x-8 text-gray-600 font-medium items-center">
+        <li><a href="/" class="hover:text-brand transition-colors duration-300">Inicio</a></li>
+        <li><a href="/carta" class="hover:text-brand transition-colors duration-300">Carta</a></li>
+        <li><a href="/contacto" class="hover:text-brand transition-colors duration-300">Reservar</a></li>
         
-        <li>
-            <a href="/contacto" class="border border-white/30 px-6 py-3 transition-all duration-300 hover:bg-white hover:text-gray-950 hover:border-white">
-                Reservar Mesa
-            </a>
-        </li>
-
         {datos?.telefono && (
-          <li class="pl-4 border-l border-white/20">
-            <a href={`tel:${datos.telefono}`} class="hover:text-orange-300 transition-colors flex items-center gap-2">
-              <span class="text-lg">📞</span> {datos.telefono}
+          <li>
+            <a href={`tel:${datos.telefono}`} class="bg-dark text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-opacity-90 transition shadow-lg tracking-wide">
+              📞 {datos.telefono}
             </a>
           </li>
         )}
@@ -51,15 +38,15 @@ const datos = await client.fetch(`*[_type == "ajustes"][0]`);
 
     </div>
 
-    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-gray-950 border-t border-white/10 shadow-2xl h-screen">
-      <ul class="flex flex-col items-center justify-center h-[60vh] space-y-8 text-white font-serif text-2xl italic">
-        <li><a href="/" class="hover:text-orange-300 transition">Inicio</a></li>
-        <li><a href="/carta" class="hover:text-orange-300 transition">Nuestra Carta</a></li>
-        <li><a href="/contacto" class="hover:text-orange-300 transition">Reservar</a></li>
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-100 bg-white">
+      <ul class="flex flex-col space-y-4 mt-4 text-gray-600 font-medium">
+        <li><a href="/" class="block hover:text-brand transition px-2">Inicio</a></li>
+        <li><a href="/carta" class="block hover:text-brand transition px-2">Carta</a></li>
+        <li><a href="/contacto" class="block hover:text-brand transition px-2">Reservar</a></li>
         
         {datos?.telefono && (
-          <li class="pt-8">
-            <a href={`tel:${datos.telefono}`} class="text-base font-sans uppercase tracking-widest border border-white/30 px-8 py-3 rounded-none hover:bg-white hover:text-gray-950 transition">
+          <li class="pt-2">
+            <a href={`tel:${datos.telefono}`} class="block text-center bg-dark text-white px-4 py-3 rounded-lg text-sm font-bold transition shadow-md">
               Llamar: {datos.telefono}
             </a>
           </li>
@@ -77,7 +64,6 @@ const datos = await client.fetch(`*[_type == "ajustes"][0]`);
   if (menuBtn && mobileMenu) {
     menuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
-      // Cambiamos el icono de menú a X si está abierto (Opcional visual)
     });
   }
 </script>

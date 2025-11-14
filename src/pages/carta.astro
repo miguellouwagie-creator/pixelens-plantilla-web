@@ -3,10 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import { client } from "../lib/sanity";
-import { urlFor } from "../lib/urlFor"; // <--- Importamos la utilidad
+import { urlFor } from "../lib/urlFor";
 
-// 1. Pedimos los datos
-// CAMBIO: Pedimos 'imagen' (objeto completo) en vez de 'imagen.asset->url'
 const platos = await client.fetch(`*[_type == "plato"]{
   titulo,
   descripcion,
@@ -15,7 +13,6 @@ const platos = await client.fetch(`*[_type == "plato"]{
   categoria
 }`) as any[];
 
-// 2. LÓGICA MAESTRA: Agrupar platos por categoría
 const platosPorCategoria = platos.reduce((acc, plato) => {
   const cat = plato.categoria || 'otros'; 
   if (!acc[cat]) acc[cat] = [];
@@ -23,15 +20,14 @@ const platosPorCategoria = platos.reduce((acc, plato) => {
   return acc;
 }, {});
 
-// Definimos el orden en que queremos que salgan
 const ordenCategorias = ['entrantes', 'principales', 'postres', 'bebidas', 'otros'];
 ---
 
 <Layout title="Nuestra Carta | La Goleta">
   <Navbar />
 
-  <div class="bg-stone-50 min-h-screen pb-20">
-    <div class="bg-gray-900 text-white py-16 text-center px-6">
+  <div class="bg-surface min-h-screen pb-20">
+    <div class="bg-dark text-white py-16 text-center px-6">
       <h1 class="text-5xl md:text-6xl italic mb-4 font-serif">Nuestra Propuesta</h1>
       <p class="text-gray-300 text-lg font-light max-w-2xl mx-auto">
         Sabores auténticos y producto de temporada.
@@ -41,14 +37,13 @@ const ordenCategorias = ['entrantes', 'principales', 'postres', 'bebidas', 'otro
     <main class="container mx-auto px-6 -mt-8">
       
       {ordenCategorias.map((categoria) => {
-        // Si no hay platos en esta categoría, no pintamos nada
         if (!platosPorCategoria[categoria]) return null;
 
         return (
           <section class="mb-16">
             <div class="flex items-center justify-center mb-10 mt-12">
               <div class="h-px bg-gray-300 w-16"></div>
-              <h2 class="mx-4 text-3xl font-bold text-gray-800 uppercase tracking-widest font-serif">
+              <h2 class="mx-4 text-3xl font-bold text-dark uppercase tracking-widest font-serif">
                 {categoria}
               </h2>
               <div class="h-px bg-gray-300 w-16"></div>
@@ -60,10 +55,10 @@ const ordenCategorias = ['entrantes', 'principales', 'postres', 'bebidas', 'otro
                   
                   <div class="flex-1 pr-4">
                     <div class="flex justify-between items-baseline mb-1">
-                      <h3 class="text-xl font-bold text-gray-900 group-hover:text-orange-700 transition-colors font-serif">
+                      <h3 class="text-xl font-bold text-dark group-hover:text-brand transition-colors font-serif">
                         {plato.titulo}
                       </h3>
-                      <span class="text-lg font-semibold text-gray-900 whitespace-nowrap ml-2 font-sans">
+                      <span class="text-lg font-semibold text-dark whitespace-nowrap ml-2 font-sans">
                         {plato.precio}
                       </span>
                     </div>
