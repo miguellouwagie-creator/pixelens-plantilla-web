@@ -1,0 +1,39 @@
+---
+interface Props {
+  href?: string; // Si tiene href, es un enlace. Si no, un botón.
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  class?: string; // Para añadir clases extra si hace falta
+  [key: string]: any; // Acepta cualquier otro atributo (target, onclick...)
+}
+
+const { href, variant = 'primary', class: className, ...rest } = Astro.props;
+
+// DEFINICIÓN CENTRALIZADA DE ESTILOS
+// Aquí es donde cambias la forma de TODOS los botones de la web a la vez
+const baseStyles = "inline-flex items-center justify-center px-8 py-3 text-lg font-bold transition-all duration-300 transform hover:scale-105 focus:outline-none tracking-wider uppercase shadow-lg";
+
+// Formas (Redondo, Cuadrado, etc.) - CAMBIA ESTO PARA EL SIGUIENTE CLIENTE
+const shapeStyles = "rounded-full"; 
+
+const variants = {
+  primary: "bg-brand text-white hover:bg-brand-hover hover:shadow-xl",
+  secondary: "bg-dark text-white hover:bg-gray-800",
+  outline: "bg-transparent border-2 border-white text-white hover:bg-white hover:text-dark",
+  ghost: "bg-transparent text-brand hover:bg-brand/10 shadow-none"
+};
+
+// Combinamos todo
+const finalClass = `${baseStyles} ${shapeStyles} ${variants[variant]} ${className || ''}`;
+---
+
+{
+  href ? (
+    <a href={href} class={finalClass} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button class={finalClass} {...rest}>
+      <slot />
+    </button>
+  )
+}

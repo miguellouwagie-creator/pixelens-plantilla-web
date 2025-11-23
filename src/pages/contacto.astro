@@ -1,7 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/ui/Button.astro";
 import { client } from "../lib/sanity";
 
 const datos = await client.fetch(`*[_type == "ajustes"][0]`);
@@ -13,77 +14,185 @@ const config = datos?.configReservas;
 
   <main class="container mx-auto px-6 py-16">
     <div class="text-center mb-16">
-      <h1 class="text-4xl md:text-5xl font-bold text-dark mb-6 font-serif">Reservas</h1>
-      <p class="text-gray-500 text-lg max-w-2xl mx-auto font-light">
-        Personaliza tu experiencia. Elige tu mesa y zona preferida.
+      <h1 class="text-4xl md:text-5xl font-bold text-dark mb-6 font-serif">
+        Reservas
+      </h1>
+      <p class="text-text-muted text-lg max-w-2xl mx-auto font-light">
+        Configura tu experiencia perfecta. Elige tu mesa y zona preferida.
       </p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
-      
+      <!-- COLUMNA IZQUIERDA: Info -->
       <div class="space-y-10 h-full flex flex-col">
-        <div class="bg-surface p-10 border-l-4 border-brand shadow-sm flex-grow">
-          <h2 class="text-2xl font-bold text-dark mb-8 font-serif">Información</h2>
-          <ul class="space-y-6 text-gray-600">
-            <li class="flex items-start"><span class="text-brand mr-4 text-xl">📍</span><span class="flex-1">{datos?.direccion}</span></li>
-            <li class="flex items-start"><span class="text-brand mr-4 text-xl">📞</span><a href={`tel:${datos?.telefono}`} class="font-bold hover:text-brand transition">{datos?.telefono}</a></li>
-            <li class="flex items-start"><span class="text-brand mr-4 text-xl">📧</span><span>{datos?.email}</span></li>
+        <!-- Tarjeta de Info (usando bg-surface y border-brand) -->
+        <div
+          class="bg-surface p-10 border-l-4 border-brand shadow-sm flex-grow"
+        >
+          <h2 class="text-2xl font-bold text-dark mb-8 font-serif">
+            Información
+          </h2>
+          <ul class="space-y-6 text-text-secondary">
+            <li class="flex items-start">
+              <span class="text-brand mr-4 text-xl">📍</span><span
+                class="flex-1">{datos?.direccion}</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-brand mr-4 text-xl">📞</span><a
+                href={`tel:${datos?.telefono}`}
+                class="font-bold hover:text-brand transition"
+                >{datos?.telefono}</a>
+            </li>
+            <li class="flex items-start">
+              <span class="text-brand mr-4 text-xl">📧</span><span
+                >{datos?.email}</span>
+            </li>
           </ul>
         </div>
-        <div class="h-64 bg-gray-200 shadow-md rounded-b-xl overflow-hidden">
-           <iframe src="TU_URL_DE_GOOGLE_MAPS" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="filter grayscale hover:grayscale-0 transition duration-700"></iframe>
+        <!-- Mapa -->
+        <div class="h-64 bg-surface shadow-md rounded-b-xl overflow-hidden">
+          <iframe
+            src="TU_URL_DE_GOOGLE_MAPS"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            class="filter grayscale hover:grayscale-0 transition duration-700"
+          ></iframe>
         </div>
       </div>
 
+      <!-- COLUMNA DERECHA: Formulario -->
       <div class="bg-white p-10 shadow-2xl border-t-4 border-dark relative">
-        <h2 class="text-2xl font-bold text-dark mb-8 font-serif">Solicitar Mesa</h2>
-        
-        <form name="reservas" method="POST" data-netlify="true" class="space-y-6">
+        <h2 class="text-2xl font-bold text-dark mb-8 font-serif">
+          Solicitar Mesa
+        </h2>
+
+        <form
+          name="reservas"
+          method="POST"
+          data-netlify="true"
+          class="space-y-6"
+        >
           <input type="hidden" name="form-name" value="reservas" />
 
+          <!-- Campos (usando bg-surface y focus:border-brand) -->
           <div class="grid grid-cols-2 gap-6">
             <div>
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Fecha</label>
-                <input type="date" name="fecha" required class="w-full px-4 py-3 bg-surface border-b-2 border-gray-200 focus:border-brand focus:bg-white outline-none transition-colors" />
+              <label
+                class="block text-xs font-bold text-text-muted uppercase mb-2"
+                >Fecha</label
+              >
+              <input
+                type="date"
+                name="fecha"
+                required
+                class="w-full px-4 py-3 bg-surface border-b-2 border-border-default focus:border-brand focus:bg-white outline-none transition-colors"
+              />
             </div>
             <div>
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Hora</label>
-                <select name="hora" class="w-full px-4 py-3 bg-surface border-b-2 border-gray-200 focus:border-brand focus:bg-white outline-none transition-colors">
-                    {config?.horarios ? config.horarios.map((h: any) => <option value={h}>{h}</option>) : <option>Turnos no definidos</option>}
-                </select>
+              <label
+                class="block text-xs font-bold text-text-muted uppercase mb-2"
+                >Hora</label
+              >
+              <select
+                name="hora"
+                class="w-full px-4 py-3 bg-surface border-b-2 border-border-default focus:border-brand focus:bg-white outline-none transition-colors"
+              >
+                {
+                  config?.horarios ? (
+                    config.horarios.map((h: any) => (
+                      <option value={h}>{h}</option>
+                    ))
+                  ) : (
+                    <option>Turnos no definidos</option>
+                  )
+                }
+              </select>
             </div>
           </div>
-
           <div class="grid grid-cols-2 gap-6">
             <div>
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Personas</label>
-                <select name="personas" class="w-full px-4 py-3 bg-surface border-b-2 border-gray-200 focus:border-brand focus:bg-white outline-none transition-colors">
-                    {config?.opcionesComensales ? config.opcionesComensales.map((c: any) => <option value={c}>{c}</option>) : <option>Consultar</option>}
-                </select>
+              <label
+                class="block text-xs font-bold text-text-muted uppercase mb-2"
+                >Personas</label
+              >
+              <select
+                name="personas"
+                class="w-full px-4 py-3 bg-surface border-b-2 border-border-default focus:border-brand focus:bg-white outline-none transition-colors"
+              >
+                {
+                  config?.opcionesComensales ? (
+                    config.opcionesComensales.map((c: any) => (
+                      <option value={c}>{c}</option>
+                    ))
+                  ) : (
+                    <option>Consultar</option>
+                  )
+                }
+              </select>
             </div>
             <div>
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Zona</label>
-                <select name="zona" class="w-full px-4 py-3 bg-surface border-b-2 border-gray-200 focus:border-brand focus:bg-white outline-none transition-colors">
-                    {config?.zonas ? config.zonas.map((z: any) => <option value={z}>{z}</option>) : <option>Cualquiera</option>}
-                </select>
+              <label
+                class="block text-xs font-bold text-text-muted uppercase mb-2"
+                >Zona</label
+              >
+              <select
+                name="zona"
+                class="w-full px-4 py-3 bg-surface border-b-2 border-border-default focus:border-brand focus:bg-white outline-none transition-colors"
+              >
+                {
+                  config?.zonas ? (
+                    config.zonas.map((z: any) => <option value={z}>{z}</option>)
+                  ) : (
+                    <option>Cualquiera</option>
+                  )
+                }
+              </select>
             </div>
           </div>
-
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nombre</label>
-            <input type="text" name="nombre" placeholder="Tu nombre" required class="w-full px-4 py-3 bg-surface border-b-2 border-gray-200 focus:border-brand focus:bg-white outline-none transition-colors" />
+            <label
+              class="block text-xs font-bold text-text-muted uppercase mb-2"
+              >Nombre</label
+            >
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Tu nombre"
+              required
+              class="w-full px-4 py-3 bg-surface border-b-2 border-border-default focus:border-brand focus:bg-white outline-none transition-colors"
+            />
           </div>
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Teléfono</label>
-            <input type="tel" name="telefono" placeholder="600 000 000" required class="w-full px-4 py-3 bg-surface border-b-2 border-gray-200 focus:border-brand focus:bg-white outline-none transition-colors" />
+            <label
+              class="block text-xs font-bold text-text-muted uppercase mb-2"
+              >Teléfono</label
+            >
+            <input
+              type="tel"
+              name="telefono"
+              placeholder="600 000 000"
+              required
+              class="w-full px-4 py-3 bg-surface border-b-2 border-border-default focus:border-brand focus:bg-white outline-none transition-colors"
+            />
           </div>
 
-          <button type="submit" class="w-full bg-dark text-white font-bold py-4 hover:bg-brand transition-colors uppercase tracking-widest text-sm shadow-lg">
+          <!-- Botón Componentizado -->
+          <Button
+            type="submit"
+            variant="secondary"
+            class="w-full !text-sm !py-4 !rounded-lg"
+          >
             Enviar Solicitud
-          </button>
+          </Button>
+
+          <p class="text-xs text-text-muted text-center">
+            * Te confirmaremos disponibilidad por email/teléfono.
+          </p>
         </form>
       </div>
-
     </div>
   </main>
   <Footer />

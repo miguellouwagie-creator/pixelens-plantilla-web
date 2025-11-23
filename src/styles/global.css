@@ -4,10 +4,10 @@
 :root {
   /* --- COLORES --- */
   /* Color Principal (Botones, Enlaces, Acentos) -> Antes era orange-700 (#c2410c) */
-  --color-brand: #c2410c; 
-  
+  --color-brand: #c2410c;
+
   /* Color Secundario (Fondos oscuros, Textos fuertes) -> Antes era gray-900 (#111827) */
-  --color-dark: #0f172a; 
+  --color-dark: #0f172a;
 
   /* Color de Fondo Suave (Secciones claras) -> Antes era stone-50 (#fafaf9) */
   --color-surface: #fafaf9;
@@ -23,9 +23,23 @@
 @theme {
   /* Colores personalizados */
   --color-brand: var(--color-brand);
-  --color-brand-hover: color-mix(in srgb, var(--color-brand), black 10%); /* Oscurece automático al pasar ratón */
+  --color-brand-hover: color-mix(in srgb, var(--color-brand), black 10%);
+  /* Oscurece automático al pasar ratón */
   --color-dark: var(--color-dark);
   --color-surface: var(--color-surface);
+
+  /* Colores de texto semánticos */
+  --color-text-primary: var(--color-dark);
+  --color-text-secondary: color-mix(in srgb, var(--color-dark), transparent 40%);
+  /* Texto más suave */
+  --color-text-muted: color-mix(in srgb, var(--color-dark), transparent 60%);
+  /* Texto muy suave */
+
+  /* Colores de borde semánticos */
+  --color-border-light: color-mix(in srgb, var(--color-dark), transparent 90%);
+  /* Borde muy suave */
+  --color-border-default: color-mix(in srgb, var(--color-dark), transparent 80%);
+  /* Borde suave */
 
   /* Fuentes personalizadas */
   --font-serif: var(--font-heading);
@@ -34,9 +48,16 @@
 
 /* 3. ESTILOS BASE AUTOMÁTICOS */
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
   }
+
   body {
     font-family: var(--font-body);
     color: var(--color-dark);

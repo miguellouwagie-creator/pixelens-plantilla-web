@@ -7,63 +7,115 @@ const datos = await client.fetch(`*[_type == "ajustes"][0]`);
 <nav class="bg-white shadow-md sticky top-0 z-50 font-sans">
   <div class="container mx-auto px-6 py-4">
     <div class="flex justify-between items-center">
-      
-      <a href="/" class="text-2xl font-bold text-dark flex items-center gap-2 font-serif">
-        {datos?.logo ? (
-            <img src={datos.logo} alt="Logo" class="h-12 w-auto object-contain" /> 
-        ) : (
+      <a
+        href="/"
+        class="text-2xl font-bold text-dark flex items-center gap-2 font-serif"
+      >
+        {
+          datos?.logo ? (
+            <img
+              src={datos.logo}
+              alt="Logo"
+              class="h-12 w-auto object-contain"
+            />
+          ) : (
             <span>{datos?.nombreRestaurante || "Restaurante"} ⚓</span>
-        )}
+          )
+        }
       </a>
 
-      <button id="menu-btn" class="md:hidden text-gray-600 hover:text-dark focus:outline-none">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+      <button
+        id="menu-btn"
+        class="md:hidden text-text-secondary hover:text-dark focus:outline-none"
+      >
+        <svg
+          class="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
       </button>
 
-      <ul class="hidden md:flex space-x-8 text-gray-600 font-medium items-center">
-        <li><a href="/" class="hover:text-brand transition-colors duration-300">Inicio</a></li>
-        <li><a href="/carta" class="hover:text-brand transition-colors duration-300">Carta</a></li>
-        <li><a href="/contacto" class="hover:text-brand transition-colors duration-300">Reservar</a></li>
-        
-        {datos?.telefono && (
-          <li>
-            <a href={`tel:${datos.telefono}`} class="bg-dark text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-opacity-90 transition shadow-lg tracking-wide">
-              📞 {datos.telefono}
-            </a>
-          </li>
-        )}
-      </ul>
+      <ul
+        class="hidden md:flex space-x-8 text-text-secondary font-medium items-center"
+      >
+        <li>
+          <a href="/" class="hover:text-brand transition-colors duration-300"
+            >Inicio</a>
+        </li>
+        <li>
+          <a
+            href="/carta"
+            class="hover:text-brand transition-colors duration-300">Carta</a>
+        </li>
+        <li>
+          <a
+            href="/contacto"
+            class="hover:text-brand transition-colors duration-300">Reservar</a>
+        </li>
 
+        {
+          datos?.telefono && (
+            <li>
+              <a
+                href={`tel:${datos.telefono}`}
+                class="bg-dark text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-opacity-90 transition shadow-lg tracking-wide"
+              >
+                📞 {datos.telefono}
+              </a>
+            </li>
+          )
+        }
+      </ul>
     </div>
 
-    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-100 bg-white">
-      <ul class="flex flex-col space-y-4 mt-4 text-gray-600 font-medium">
-        <li><a href="/" class="block hover:text-brand transition px-2">Inicio</a></li>
-        <li><a href="/carta" class="block hover:text-brand transition px-2">Carta</a></li>
-        <li><a href="/contacto" class="block hover:text-brand transition px-2">Reservar</a></li>
-        
-        {datos?.telefono && (
-          <li class="pt-2">
-            <a href={`tel:${datos.telefono}`} class="block text-center bg-dark text-white px-4 py-3 rounded-lg text-sm font-bold transition shadow-md">
-              Llamar: {datos.telefono}
-            </a>
-          </li>
-        )}
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden mt-4 pb-4 border-t border-border-light bg-white"
+    >
+      <ul class="flex flex-col space-y-4 mt-4 text-text-secondary font-medium">
+        <li>
+          <a href="/" class="block hover:text-brand transition px-2">Inicio</a>
+        </li>
+        <li>
+          <a href="/carta" class="block hover:text-brand transition px-2"
+            >Carta</a>
+        </li>
+        <li>
+          <a href="/contacto" class="block hover:text-brand transition px-2"
+            >Reservar</a>
+        </li>
+
+        {
+          datos?.telefono && (
+            <li class="pt-2">
+              <a
+                href={`tel:${datos.telefono}`}
+                class="block text-center bg-dark text-white px-4 py-3 rounded-lg text-sm font-bold transition shadow-md"
+              >
+                Llamar: {datos.telefono}
+              </a>
+            </li>
+          )
+        }
       </ul>
     </div>
-
   </div>
 </nav>
 
 <script>
-  const menuBtn = document.getElementById('menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
+  const menuBtn = document.getElementById("menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
 
   if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
     });
   }
 </script>

@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import { client } from "../lib/sanity";
 import { urlFor } from "../lib/urlFor";
 
+// 1. Pedimos los datos
 const platos = await client.fetch(`*[_type == "plato"]{
   titulo,
   descripcion,
@@ -13,6 +14,7 @@ const platos = await client.fetch(`*[_type == "plato"]{
   categoria
 }`) as any[];
 
+// 2. LÓGICA MAESTRA: Agrupar platos por categoría
 const platosPorCategoria = platos.reduce((acc, plato) => {
   const cat = plato.categoria || 'otros'; 
   if (!acc[cat]) acc[cat] = [];
@@ -20,6 +22,7 @@ const platosPorCategoria = platos.reduce((acc, plato) => {
   return acc;
 }, {});
 
+// Definimos el orden en que queremos que salgan
 const ordenCategorias = ['entrantes', 'principales', 'postres', 'bebidas', 'otros'];
 ---
 
@@ -27,9 +30,10 @@ const ordenCategorias = ['entrantes', 'principales', 'postres', 'bebidas', 'otro
   <Navbar />
 
   <div class="bg-surface min-h-screen pb-20">
+    
     <div class="bg-dark text-white py-16 text-center px-6">
       <h1 class="text-5xl md:text-6xl italic mb-4 font-serif">Nuestra Propuesta</h1>
-      <p class="text-gray-300 text-lg font-light max-w-2xl mx-auto">
+      <p class="text-white/80 text-lg font-light max-w-2xl mx-auto">
         Sabores auténticos y producto de temporada.
       </p>
     </div>
@@ -42,16 +46,16 @@ const ordenCategorias = ['entrantes', 'principales', 'postres', 'bebidas', 'otro
         return (
           <section class="mb-16">
             <div class="flex items-center justify-center mb-10 mt-12">
-              <div class="h-px bg-gray-300 w-16"></div>
+              <div class="h-px bg-dark/20 w-16"></div>
               <h2 class="mx-4 text-3xl font-bold text-dark uppercase tracking-widest font-serif">
                 {categoria}
               </h2>
-              <div class="h-px bg-gray-300 w-16"></div>
+              <div class="h-px bg-dark/20 w-16"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 max-w-5xl mx-auto">
               {platosPorCategoria[categoria].map((plato: any) => (
-                <div class="group flex justify-between items-start border-b border-gray-200 pb-4 hover:border-gray-400 transition-colors">
+                <div class="group flex justify-between items-start border-b border-dark/10 pb-4 hover:border-brand/50 transition-colors">
                   
                   <div class="flex-1 pr-4">
                     <div class="flex justify-between items-baseline mb-1">
@@ -62,7 +66,7 @@ const ordenCategorias = ['entrantes', 'principales', 'postres', 'bebidas', 'otro
                         {plato.precio}
                       </span>
                     </div>
-                    <p class="text-gray-500 text-sm font-light leading-relaxed italic">
+                    <p class="text-dark/70 text-sm font-light leading-relaxed italic">
                       {plato.descripcion}
                     </p>
                   </div>
