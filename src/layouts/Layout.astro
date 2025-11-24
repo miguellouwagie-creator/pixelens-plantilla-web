@@ -1,5 +1,6 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
+import { client } from "../lib/sanity";
 
 // Definimos las propiedades que pueden cambiar página a página
 interface Props {
@@ -7,21 +8,66 @@ interface Props {
 	description?: string; // Opcional
 }
 
-const { 
-	title, 
-	description = "Restaurante La Goleta en Denia. La mejor cocina mediterránea, arroces y pescados frescos en el corazón del puerto." 
+const {
+	title,
+	description = "Restaurante La Goleta en Denia. La mejor cocina mediterránea, arroces y pescados frescos en el corazón del puerto.",
 } = Astro.props;
+
+// Fetch datos from Sanity
+const datos = await client.fetch(`*[_type == "ajustes"][0]{ design }`);
+
+// Define theme presets with hardcoded hex values
+const themes = {
+	lujo: {
+		brand: "#d4af37",
+		dark: "#1a1a1a",
+		surface: "#2d2d2d",
+		font: "Playfair Display, serif",
+	},
+	naturaleza: {
+		brand: "#6b8e23",
+		dark: "#2f4f4f",
+		surface: "#3a5a40",
+		font: "Lato, sans-serif",
+	},
+	marino: {
+		brand: "#4682b4",
+		dark: "#001f3f",
+		surface: "#003d5b",
+		font: "Roboto, sans-serif",
+	},
+	moderno: {
+		brand: "#ff6b6b",
+		dark: "#121212",
+		surface: "#1e1e1e",
+		font: "Inter, sans-serif",
+	},
+};
+
+// Identify base theme (default to 'lujo')
+const baseTheme =
+	themes[datos?.design?.tema as keyof typeof themes] || themes.lujo;
+
+// Merge strategy: manual Sanity fields override theme defaults
+const finalBrand = datos?.design?.colorBrand || baseTheme.brand;
+const finalDark = datos?.design?.colorDark || baseTheme.dark;
+const finalSurface = datos?.design?.colorSurface || baseTheme.surface;
+const finalFont = datos?.design?.fontPreset || baseTheme.font;
 ---
 
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content={description} /> <meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+			rel="stylesheet"
+		/>
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
@@ -31,3 +77,20 @@ const {
 		</div>
 	</body>
 </html>
+
+<style
+	define:vars={{
+		colorBrand: finalBrand,
+		colorDark: finalDark,
+		colorSurface: finalSurface,
+		fontFamily: finalFont,
+	}}
+>
+	/* CSS variables are now available globally as var(--colorBrand), var(--colorDark), etc. */
+	:root {
+		--color-brand: var(--colorBrand);
+		--color-dark: var(--colorDark);
+		--color-surface: var(--colorSurface);
+		--font-family: var(--fontFamily);
+	}
+</style>
