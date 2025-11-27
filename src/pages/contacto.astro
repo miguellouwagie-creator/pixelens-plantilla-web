@@ -9,16 +9,16 @@ const datos = await client.fetch(`*[_type == "ajustes"][0]`);
 const config = datos?.configReservas;
 ---
 
-<Layout title={`Contactar | ${datos?.nombreRestaurante || "Restaurante"}`}>
+<Layout title={`Consultoría | ${datos?.nombreRestaurante || "Restaurante"}`}>
   <Navbar />
 
   <main class="container mx-auto px-6 py-16">
     <div class="text-center mb-16">
       <h1 class="text-4xl md:text-5xl font-bold text-dark mb-6 font-serif">
-        Reservas
+        Tu Proyecto
       </h1>
       <p class="text-text-muted text-lg max-w-2xl mx-auto font-light">
-        Configura tu experiencia perfecta. Elige tu mesa y zona preferida.
+        Cuéntanos tu reto de negocio y te ayudaremos a alcanzar tus objetivos.
       </p>
     </div>
 
@@ -35,17 +35,20 @@ const config = datos?.configReservas;
           <ul class="space-y-6 text-text-secondary">
             <li class="flex items-start">
               <span class="text-brand mr-4 text-xl">📍</span><span
-                class="flex-1">{datos?.direccion}</span>
+                class="flex-1">{datos?.direccion}</span
+              >
             </li>
             <li class="flex items-start">
               <span class="text-brand mr-4 text-xl">📞</span><a
                 href={`tel:${datos?.telefono}`}
                 class="font-bold hover:text-brand transition"
-                >{datos?.telefono}</a>
+                >{datos?.telefono}</a
+              >
             </li>
             <li class="flex items-start">
               <span class="text-brand mr-4 text-xl">📧</span><span
-                >{datos?.email}</span>
+                >{datos?.email}</span
+              >
             </li>
           </ul>
         </div>
@@ -66,7 +69,7 @@ const config = datos?.configReservas;
       <!-- COLUMNA DERECHA: Formulario -->
       <div class="bg-white p-10 shadow-2xl border-t-4 border-dark relative">
         <h2 class="text-2xl font-bold text-dark mb-8 font-serif">
-          Solicitar Mesa
+          Solicitar Consultoría
         </h2>
 
         <form
@@ -185,7 +188,7 @@ const config = datos?.configReservas;
             variant="secondary"
             class="w-full !text-sm !py-4 !rounded-lg"
           >
-            Enviar Solicitud
+            Empezar Proyecto
           </Button>
 
           <p class="text-xs text-text-muted text-center">
